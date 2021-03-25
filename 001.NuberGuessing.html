@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>猜数字</title>
+</head>
+<body>
+<h1>猜数字游戏</h1>
+<p>请输入1~100之间的自然数：</p>
+<input type="text" class="userNumber">
+<button class="checkNumber">确定</button>
+<!--用户所猜的数字-->
+<p class="guess"></p>
+<!--告诉用户是否猜正确-->
+<p class="lastResult"></p>
+<!--判断数字高了还是低了-->
+<p class="judge"></p>
+<script>
+    // 定义一个随机数   范围1~100
+    var randomNumber = Math.floor(Math.random()*100+1);
+    console.log(randomNumber);
+    // 获取元素
+    var userNumber = document.getElementsByClassName("userNumber")[0];
+    var checkNumber = document.getElementsByClassName("checkNumber")[0];
+    var guess = document.getElementsByClassName("guess")[0];
+    var lastResult = document.getElementsByClassName("lastResult")[0];
+    var judge = document.getElementsByClassName("judge")[0];
+    // 定义猜的次数
+    var guessCount = 1;
+    // 判断数字的函数
+    function checkGuess() {
+        // 用户输入的数字
+        var userGuess = Number(userNumber.value);
+        if(guessCount ===1){
+            //textContent 作用和 InnerTe一致，加入文本内容
+            guess.textContent = "上次猜的数字是：";
+        }
+        // 把用户猜的数字显示出来
+        guess.textContent += userGuess + " ";
+        // 判断用户输入的数字是否与随机数一致
+        if(userGuess === randomNumber){         //用户回答正确的情况
+            lastResult.textContent = "恭喜你，答对了！";
+            lastResult.style.backgroundColor = "green";
+            judge.textContent = "";
+            gameover();
+        }
+        // 用户所猜的次数到达10次的时候，结束游戏
+        else if(guessCount === 10){
+            lastResult.textContent = "游戏结束";
+            gameover();
+        }
+        // 用户猜1~10次且猜错的时候
+        else{
+            lastResult.textContent = "你猜错了";
+            lastResult.style.backgroundColor = "red";
+            // 判断用户输入的数字与系统生成的数字的大小比较
+            if(userGuess<randomNumber){
+                judge.textContent = "你猜低了";
+            }else if(userGuess>randomNumber){
+                judge.textContent = "你猜高了";
+            }
+        }
+        // 猜测的次数要加1
+        guessCount++;
+        // 清空用户输入框
+        userNumber.value = "";
+        // 焦点事件  让焦点回到输入框   在每次输入之后让鼠标指针回到输入框中
+        userNumber.focus();
+    }
+    // 确定按钮的事件
+    checkNumber.addEventListener("click",checkGuess);
+    // 游戏结束的函数
+    function gameover() {
+        // 输入框禁用
+        userNumber.disabled = true;
+        // 按钮的禁用
+        checkNumber.disable = true;
+        // 创建一个按钮
+        resetButton = document.createElement("button");
+        resetButton.textContent = "开始新游戏";
+        // 向body里面加一个按钮元素
+        document.body.appendChild(resetButton);
+        // 点击开始新游戏，要重置游戏
+        resetButton.addEventListener("click",resetGame);
+    }
+    // 游戏重置的函数
+    function resetGame() {
+        // 猜的次数重新赋值
+        checkNumber = 1;
+        // 获取所有p标签元素
+        var resetText = document.querySelectorAll("p");
+        // 清空p标签的文本内容
+        for(var i=1;i<resetText.length;i++){
+            resetText[i].textContent = "";
+        }
+        // 删除开始新游戏的按钮
+        resetButton.parentNode.removeChild(resetButton);
+        // 取消禁用
+        userNumber.disabled = false;
+        checkNumber.disable = false;
+        // 清空输入框
+        userNumber.value = "";
+        // 让鼠标指针重新回到输入框中
+        userNumber.focus();
+        // 让第二个p标签的背景色设置为白色
+        lastResult.style.backgroundColor = "white";
+        randomNumber = Math.floor(Math.random()*100+1);
+        console.log(randomNumber);
+    }
+</script>
+</body>
+</html>

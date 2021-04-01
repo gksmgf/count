@@ -1,0 +1,37 @@
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head runat="server">
+		<title>无标题页</title>
+		<script type="text/javascript">
+			function year_change() {
+				var years = document.getElementById("year").value;
+				var mouths = document.getElementById("mouth").value;
+				if ((years % 4 == 0 && years % 100 != 0) || years % 400 == 0) {
+					if (mouths == "2") {
+						alert("这个月29天");
+					} else if (mouths == "4" || mouths == "6" || mouths == "9" || mouths == "11") {
+						alert("这个月30天");
+					} else {
+						alert("这个月31天");
+					}
+				} else {
+					if (mouths == "2") {
+						alert("这个月28天");
+					} else if (mouths == "4" || mouths == "6" || mouths == "9" || mouths == "11") {
+						alert("这个月30天");
+					} else {
+						alert("这个月31天");
+					}
+				}
+			}
+		</script>
+	</head>
+	<body>
+		<form id="form1" runat="server">
+			<div>
+				年：<input type="text" id="year" /> <br />
+				月：<input type="text" id="mouth" /><br />
+				<input type="button" value="显示日期" onclick="year_change()" />
+			</div>
+		</form>
+	</body>
+</html>
